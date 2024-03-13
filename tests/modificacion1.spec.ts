@@ -1,10 +1,16 @@
 import "mocha"
 import { expect } from "chai"
-import {add} from "../src/modificacion1.js"
+import {Button,ButtonObserver,Observable,Observer,Event,} from "../src/modificacion1.js"
 
 
-describe('Modificacion 1 - ',() =>{
-   it('Comprobamos que funcione correctamente',() =>{
-      expect(add(2,3)).to.be.equal(5);
+describe('Modificacion 1 - Obsever mod',() =>{
+   it('Comprobamos que funciona el get name',() =>{
+      const ButtonOberver= new ButtonObserver(0,"observador")
+      expect(ButtonOberver.getId()).to.be.equal(0);
    })
+   it('Comprobamos que funciona el get name',() =>{
+      const ButtonOberver= new ButtonObserver(0,"observable")
+      expect(ButtonOberver.getName()).to.be.equal("observable");
+   })
+   
 });
