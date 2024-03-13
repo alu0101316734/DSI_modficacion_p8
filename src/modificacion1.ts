@@ -15,7 +15,7 @@ export interface Event<T>{
 
 
 export interface Observer<T> {
-  update(observable: Observable<T>,Event:Event<T>): string;
+  update(observable: Observable<T>,Event:Event<T>): void;
 }
 
 
@@ -27,18 +27,19 @@ export interface Observer<T> {
 export class Button<T> implements Observable<T> {
   private observers: Observer<T>[] = [];
   
-
+   /** @constructor inzilaizamos con un identificador */
   constructor(private id: number, private name: string) {
   }
-
+  /** @public getter de id */
   getId() {
     return this.id;
   }
+  /**@public getter de nombre */
   getName() {
     return this.name;
   }
 
-
+  /** @public metodo para suscribir  */
   subscribe(observer: Observer<T>) {
     if (this.observers.includes(observer)) {
       throw new Error('The observer had already been subscribed');
@@ -46,7 +47,7 @@ export class Button<T> implements Observable<T> {
       this.observers.push(observer);
     }
   }
-
+  /** @public metodo para desuscribir  */
   unsubscribe(observer: Observer<T>) {
     const index = this.observers.indexOf(observer);
     if (index === -1) {
@@ -55,7 +56,7 @@ export class Button<T> implements Observable<T> {
       this.observers.splice(index, 1);
     }
   }
-
+  /** notificar cuando ocurre un evento nuevo */
   notify(Event:Event<T>): void {
     this.observers.forEach((observer) => observer.update(this,Event));
   }
@@ -67,21 +68,21 @@ export class Button<T> implements Observable<T> {
 }
 
 /**
- * Class ButtonObserver that implements the interface Observer, i.e.,
- * it is able to observe other objects
+ * @class clase del Observador
  */
 export class ButtonObserver implements Observer<unknown> {
   constructor(private id: number, private name: string) {
   }
-
+  /** @public getters id */
   getId() {
     return this.id;
   }
+  /** @public getters name */
   getName() {
     return this.name;
   }
-
-  update(observable: Observable<unknown>,Event:Event<unknown>): string {
-     return "El evento" + Event.data + "con el tipo" + typeof(Event) + "ha regsitrado un evento"
+  /**@public actualza el evento al usuario */
+  update(observable: Observable<unknown>,Event:Event<unknown>): void {
+     console.log("El evento " + Event.data + "con el tipo " + typeof(Event.data) + " ha regsitrado un evento para " + observable);
   }
 }
